@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Absen Dosen</string>
+
+    <string name="jenis_kelamin">Jenis Kelamin</string>
+
+    <string-array name="jenis_kelamin_array">
+        <item>Ikhwan</item>
+        <item>Akhwat</item>
+    </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
+
+</resources>
