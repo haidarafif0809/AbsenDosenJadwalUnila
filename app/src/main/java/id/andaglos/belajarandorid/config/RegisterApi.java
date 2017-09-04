@@ -21,6 +21,14 @@ public interface RegisterApi {
     Call<Value>prosesLogin(@Field("username") String username,
                                 @Field("password") String password);
 
+    @FormUrlEncoded
+    @POST("list_jadwal_dosen")
+    Call<Value>listJadwal(@Field("username") String username );
+
+    @FormUrlEncoded
+    @POST("search_jadwal_dosen")
+    Call<Value>searchJadwal(@Field("search") String search,
+                            @Field("username") String username);
 
 }
 

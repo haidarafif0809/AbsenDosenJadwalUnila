@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Toast.makeText(LoginActivity.this, "Login as "+login_username, Toast.LENGTH_SHORT).show();
             finish();
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            startActivity(new Intent(LoginActivity.this,ListJadwalActivity.class));
         }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                     session_login();
                     finish();
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this,ListJadwalActivity.class));
 
 
 

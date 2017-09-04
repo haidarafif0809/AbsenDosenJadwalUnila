@@ -47,7 +47,15 @@ public class CrudService {
 
     public void prosesLogin(String username, String password, Callback callback){
         registerApi.prosesLogin(username , password).enqueue(callback);
+    }    
+
+    public void listJadwal(String username, Callback callback){
+        registerApi.listJadwal(username).enqueue(callback);
     }
+    public void searchJadwal(String search , String username,Callback callback){
+        registerApi.searchJadwal(search,username).enqueue(callback);
+    }
+
 
 
 }
