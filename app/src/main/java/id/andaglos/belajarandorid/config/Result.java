@@ -10,6 +10,7 @@ public class Result{
     String waktu;
     String mata_kuliah;
     String nama_ruangan;
+    String id_jadwal;
 
     public String getTanggal(){
 
@@ -26,6 +27,10 @@ public class Result{
     public String getNamaRuangan(){
         return nama_ruangan;
 
+    }
+
+    public String getIdJadwal(){
+        return id_jadwal;
     }
 
 }

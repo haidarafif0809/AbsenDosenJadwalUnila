@@ -12,7 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,11 +31,15 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
 
     private List<Result> results = new ArrayList<>();
     private RecyclerViewAdapter viewAdapter;
+    private ImageView imageView;
+    private TextView jadwal_kosong;
 
     SearchView search;
     RecyclerView recyclerView;
     ProgressBar progressBar;
     SharedPreferences sharedpreferences;
+
+
     public static final String MyPREFERENCES = "login" ;
     public static final String username = "usernameKey";
     public static final String loginusername = "usernameKey";
@@ -46,6 +52,8 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         search = (SearchView) findViewById(R.id.search);
+        imageView = (ImageView) findViewById(R.id.ImageKosong);
+        jadwal_kosong = (TextView) findViewById(R.id.jadwal_kosong);
 
         viewAdapter = new RecyclerViewAdapter(this, results);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -54,12 +62,15 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
         recyclerView.setAdapter(viewAdapter);
 
         SharedPreferences shared = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        String login_username = (shared.getString(username, ""));
+        String login_username = shared.getString(username, "");
 
         loadDataJadwal(login_username);
     }
 
-    private void loadDataJadwal(String username) {
+    public void loadDataJadwal(String username) {
+
+        imageView.setVisibility(View.GONE);// hidden Image View
+        jadwal_kosong.setVisibility(View.GONE);// hidden Text Jadwal Kosong
 
         CrudService crud = new CrudService();
         crud.listJadwal(username,new Callback <Value>() {
@@ -67,8 +78,17 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
             public void onResponse(Call<Value> call, Response<Value> response) {
 
                 String value = response.body().getValue();
+
                 progressBar.setVisibility(View.GONE);
-                if (value.equals("1")) {
+
+
+                if (value.equals("0")) {
+
+                    imageView.setVisibility(View.VISIBLE);// Show Image View
+                    jadwal_kosong.setVisibility(View.VISIBLE);// Hidden Text Jadwal Kosong
+
+                }else{
+
                     results = response.body().getResult();
                     viewAdapter = new RecyclerViewAdapter(ListJadwalActivity.this, results);
                     recyclerView.setAdapter(viewAdapter);
@@ -167,6 +187,16 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences shared = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        String login_username = (shared.getString(username, ""));
+
+        loadDataJadwal(login_username);
     }
 
 

@@ -56,6 +56,10 @@ public class CrudService {
         registerApi.searchJadwal(search,username).enqueue(callback);
     }
 
+    public void batalJadwalDosen(String id_jadwal,Callback callback){
+        registerApi.batalJadwalDosen(id_jadwal).enqueue(callback);
+    }
+
 
 
 }

@@ -30,6 +30,11 @@ public interface RegisterApi {
     Call<Value>searchJadwal(@Field("search") String search,
                             @Field("username") String username);
 
+
+    @FormUrlEncoded
+    @POST("batal_jadwal_dosen")
+    Call<Value>batalJadwalDosen(@Field("id_jadwal") String id_jadwal);
+
 }
 
 
