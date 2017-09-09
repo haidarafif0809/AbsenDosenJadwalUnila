@@ -29,16 +29,18 @@ import retrofit2.Response;
 
 public class ListJadwalActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
-    private List<Result> results = new ArrayList<>();
-    private RecyclerViewAdapter viewAdapter;
-    private ImageView imageView;
-    private TextView jadwal_kosong;
+    // declrasikan variable yang dibutuhkan
+    private List<Result> results = new ArrayList<>();// result
+    private RecyclerViewAdapter viewAdapter;// viewAdapter
+    private ImageView imageView;// image view
+    private TextView jadwal_kosong; // text view jadwal kosong
 
-    SearchView search;
-    RecyclerView recyclerView;
-    ProgressBar progressBar;
+    SearchView search;// search/ pencarian
+    RecyclerView recyclerView;// recyclerView
+    ProgressBar progressBar;// progresabar
+
+    // untuk menyimpan data username yang sedang login
     SharedPreferences sharedpreferences;
-
 
     public static final String MyPREFERENCES = "login" ;
     public static final String username = "usernameKey";
@@ -49,6 +51,7 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_jadwal);
 
+        // inisiasi variable
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         search = (SearchView) findViewById(R.id.search);
@@ -64,9 +67,11 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
         SharedPreferences shared = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         String login_username = shared.getString(username, "");
 
+        // passing varibel username
         loadDataJadwal(login_username);
     }
 
+    // proses menampilkan list jadwal dosen
     public void loadDataJadwal(String username) {
 
         imageView.setVisibility(View.GONE);// hidden Image View
@@ -77,18 +82,17 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
             @Override
             public void onResponse(Call<Value> call, Response<Value> response) {
 
-                String value = response.body().getValue();
+                String value = response.body().getValue();// ambil vallue
 
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);// hidden progressbar
 
-
-                if (value.equals("0")) {
-
+                if (value.equals("0")) {// jika value bernilai nol,
+                    // maka
                     imageView.setVisibility(View.VISIBLE);// Show Image View
                     jadwal_kosong.setVisibility(View.VISIBLE);// Hidden Text Jadwal Kosong
 
-                }else{
-
+                }else{// jika tidak
+                    // tampilkan lsit jadwal
                     results = response.body().getResult();
                     viewAdapter = new RecyclerViewAdapter(ListJadwalActivity.this, results);
                     recyclerView.setAdapter(viewAdapter);
@@ -96,10 +100,11 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call call, Throwable t) {// jika terjadi throwble
 
+                progressBar.setVisibility(View.GONE);// hidden progressbar
                 Toast.makeText(ListJadwalActivity.this, "Terjadi Kesalahan!", Toast.LENGTH_SHORT).show();
-
+                // toast terjadi KEsalahan
                 t.printStackTrace();
 
             }
@@ -113,11 +118,14 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
         return false;
     }
 
+    // fitur search jadwal/ pencarian jadwa;
     @Override
-    public boolean onQueryTextChange(String newText) {
-        recyclerView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
+    public boolean onQueryTextChange(String newText) {// keyup
 
+        recyclerView.setVisibility(View.GONE);// hidden recycle view
+        progressBar.setVisibility(View.VISIBLE);// munculkan progressbar
+
+        // untuk menda[takn session login
         SharedPreferences shared = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         String username = (shared.getString(loginusername, ""));
 
@@ -127,9 +135,12 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
             public void onResponse(Call<Value> call, Response<Value> response) {
 
                 String value = response.body().getValue();
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE); //hidden progressBar
+                recyclerView.setVisibility(View.VISIBLE);// tampilkan recycle view
+
+                // jika value bernilai 1
                 if (value.equals("1")) {
+                    // maka akan tampil jadwal yang dicari
                     results = response.body().getResult();
                     viewAdapter = new RecyclerViewAdapter(ListJadwalActivity.this, results);
                     recyclerView.setAdapter(viewAdapter);
@@ -139,6 +150,7 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
             @Override
             public void onFailure(Call call, Throwable t) {
 
+                progressBar.setVisibility(View.GONE); //hidden progressBar
                 Toast.makeText(ListJadwalActivity.this, "Terjadi Kesalahan!", Toast.LENGTH_SHORT).show();
 
                 t.printStackTrace();
@@ -164,11 +176,13 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-
+        // logut
         if (item.getItemId() ==  R.id.logout) {
             logout();
             finish();
             startActivity( new Intent(ListJadwalActivity.this, LoginActivity.class));
+        } else if (item.getItemId() ==  R.id.list_jadwal_dosen){
+            startActivity( new Intent(ListJadwalActivity.this, ListJadwalActivity.class));
         }
 
 
@@ -179,16 +193,18 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
     public void onBackPressed()
     {
         finish();
-    }
+    }// jika user tekan tombol back
 
+    // logout
     public void logout (){
 
         SharedPreferences preferences = getSharedPreferences("login", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.commit();
+        SharedPreferences.Editor editor = preferences.edit();// edit sessionlogin
+        editor.clear();// bersihkan session login
+        editor.commit();// simpan
     }
 
+// untuk menampilkan otomatis data terbaru.
     @Override
     protected void onResume() {
         super.onResume();

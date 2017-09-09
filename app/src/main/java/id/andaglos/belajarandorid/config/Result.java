@@ -11,6 +11,7 @@ public class Result{
     String mata_kuliah;
     String nama_ruangan;
     String id_jadwal;
+    String id_ruangan;
 
     public String getTanggal(){
 
@@ -31,6 +32,10 @@ public class Result{
 
     public String getIdJadwal(){
         return id_jadwal;
+    }
+
+    public String getIdRuangan(){
+        return id_ruangan;
     }
 
 }

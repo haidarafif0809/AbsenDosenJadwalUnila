@@ -60,6 +60,10 @@ public class CrudService {
         registerApi.batalJadwalDosen(id_jadwal).enqueue(callback);
     }
 
+    public void presensiDosen(String id_jadwal, String username, String id_ruangan ,String image ,Callback callback){
+        registerApi.presensiDosen(id_jadwal,username, id_ruangan,image).enqueue(callback);
+    }
+
 
 
 }

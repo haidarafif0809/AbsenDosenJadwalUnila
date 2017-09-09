@@ -35,6 +35,13 @@ public interface RegisterApi {
     @POST("batal_jadwal_dosen")
     Call<Value>batalJadwalDosen(@Field("id_jadwal") String id_jadwal);
 
+    @FormUrlEncoded
+    @POST("presensi_dosen")
+    Call<Value>presensiDosen(@Field("id_jadwal") String id_jadwal,
+                             @Field("username") String username,
+                             @Field("id_ruangan") String id_ruangan,
+                             @Field("image") String image);
+
 }
 
 

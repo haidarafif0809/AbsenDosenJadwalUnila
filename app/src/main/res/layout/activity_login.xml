@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/background_login">
+    android:background="@drawable/background2">
 
     <LinearLayout
         android:orientation="vertical"
@@ -15,8 +15,8 @@
 
 
         <ImageView
-            android:src="@drawable/schedule_background"
-            android:layout_width="wrap_content"
+            android:src="@drawable/logofinish"
+            android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginBottom="40dp"
             android:layout_gravity="center_horizontal"
@@ -32,9 +32,9 @@
             android:textColorHighlight="@android:color/primary_text_dark"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:textSize="40dp"
-            android:fontFamily="sans-serif-light"
-            android:textStyle="italic|bold"
+            android:textSize="30sp"
+            android:fontFamily="arial"
+            android:textStyle="bold"
 
             />
 
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/user_login"
-                android:hint="Email"
+                android:hint="Email Atau Username"
                 android:textColorHint="#f5f2f2"
                 android:textColor="#fff"/>
 
@@ -63,6 +63,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
+            android:background="#5a98d3"
+            android:textColor="@android:color/white"
             android:text="Login"/>
 
 
