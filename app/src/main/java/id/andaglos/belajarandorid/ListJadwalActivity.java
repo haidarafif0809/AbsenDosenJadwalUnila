@@ -1,10 +1,13 @@
 package id.andaglos.belajarandorid;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +20,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kishan.askpermission.AskPermission;
+import com.kishan.askpermission.ErrorCallback;
+import com.kishan.askpermission.PermissionCallback;
+import com.kishan.askpermission.PermissionInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +35,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListJadwalActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class ListJadwalActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, PermissionCallback, ErrorCallback {
 
     // declrasikan variable yang dibutuhkan
+    private static final int REQUEST_PERMISSIONS = 20;
+
     private List<Result> results = new ArrayList<>();// result
     private RecyclerViewAdapter viewAdapter;// viewAdapter
     private ImageView imageView;// image view
@@ -69,6 +79,8 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
 
         // passing varibel username
         loadDataJadwal(login_username);
+
+         reqPermission();
     }
 
     // proses menampilkan list jadwal dosen
@@ -215,5 +227,50 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
         loadDataJadwal(login_username);
     }
 
+    public void reqPermission() {
+        new AskPermission.Builder(this).setPermissions(
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                .setCallback(this)
+                .setErrorCallback(this)
+                .request(REQUEST_PERMISSIONS);
+    }
 
+
+    @Override
+    public void onShowRationalDialog(final PermissionInterface permissionInterface, int requestCode) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("We need permissions for this app.");
+        builder.setPositiveButton("oke", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                permissionInterface.onDialogShown();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void onShowSettings(final PermissionInterface permissionInterface, int requestCode) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("We need permissions for this app. Open setting screen?");
+        builder.setPositiveButton("oke", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                permissionInterface.onSettingsShown();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode) {
+        Toast.makeText(this, "Permissions Received.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode) {
+        Toast.makeText(this, "Permissions Denied.", Toast.LENGTH_LONG).show();
+        reqPermission();
+    }
 }

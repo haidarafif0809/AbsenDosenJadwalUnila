@@ -60,8 +60,11 @@ public class CrudService {
         registerApi.batalJadwalDosen(id_jadwal).enqueue(callback);
     }
 
-    public void presensiDosen(String id_jadwal, String username, String id_ruangan ,String image ,Callback callback){
-        registerApi.presensiDosen(id_jadwal,username, id_ruangan,image).enqueue(callback);
+    public void presensiDosen(String id_jadwal, String username, String id_ruangan , String image ,
+                              String latitude_sekarang, String longitude_sekarang, String jarak_ke_lokasi_absen,
+                              String waktu_jadwal, String tanggal, Callback callback){
+        registerApi.presensiDosen(id_jadwal,username, id_ruangan,image, latitude_sekarang,
+                longitude_sekarang, jarak_ke_lokasi_absen,waktu_jadwal, tanggal).enqueue(callback);
     }
 
 

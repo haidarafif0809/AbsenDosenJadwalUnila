@@ -12,6 +12,9 @@ public class Result{
     String nama_ruangan;
     String id_jadwal;
     String id_ruangan;
+    String latitude;
+    String longitude;
+    String batas_jarak_absen;
 
     public String getTanggal(){
 
@@ -36,6 +39,19 @@ public class Result{
 
     public String getIdRuangan(){
         return id_ruangan;
+    }
+
+    public String getLatitude(){
+        return latitude;
+
+    }
+
+    public String getLongitude(){
+        return longitude;
+    }
+
+    public String getBatasJarakAbsen(){
+        return batas_jarak_absen;
     }
 
 }

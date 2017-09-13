@@ -40,7 +40,12 @@ public interface RegisterApi {
     Call<Value>presensiDosen(@Field("id_jadwal") String id_jadwal,
                              @Field("username") String username,
                              @Field("id_ruangan") String id_ruangan,
-                             @Field("image") String image);
+                             @Field("image") String image,
+                             @Field("latitude_sekarang") String latitude_sekarang,
+                             @Field("longitude_sekarang") String longitude_sekarang,
+                             @Field("jarak_ke_lokasi_absen") String jarak_ke_lokasi_absen,
+                             @Field("waktu_jadwal") String waktu_jadwal,
+                             @Field("tanggal") String tanggal);
 
 }
 

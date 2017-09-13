@@ -56,6 +56,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.txtNamaRuangan.setText(result.getNamaRuangan());
         holder.txtIdJadwal.setText(result.getIdJadwal());
         holder.txtIdRuangan.setText(result.getIdRuangan());
+        holder.txtLatitude.setText(result.getLatitude());
+        holder.txtLongitude.setText(result.getLongitude());
+        holder.txtBatasJarakAbsen.setText(result.getBatasJarakAbsen());
     }
 
     @Override
@@ -74,13 +77,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView txtTanggal, txtWaktu, txtMataKuliah,txtNamaRuangan, txtIdJadwal, txtIdRuangan;
+        TextView txtTanggal, txtWaktu, txtMataKuliah,txtNamaRuangan, txtIdJadwal, txtIdRuangan,
+                txtLatitude, txtLongitude, txtBatasJarakAbsen;
 
         SharedPreferences sharedpreferences;
         public static final String MyPREFERENCES = "login" ;
 
         public String id_jadwal;
         public String id_ruangan;
+        public String latitude;
+        public String longitude;
+        public String batas_jarak_absen;
+        public String nama_ruangan;
+        public String tanggal;
+        public String waktu_jadwal;
 
 
         public ViewHolder(View itemView) {
@@ -91,6 +101,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             txtWaktu = itemView.findViewById(R.id.textWaktu);
             txtMataKuliah = itemView.findViewById(R.id.textMataKuliah);
             txtNamaRuangan = itemView.findViewById(R.id.textNamaRuangan);
+            txtLongitude = itemView.findViewById(R.id.textLongitude);
+            txtLongitude.setVisibility(View.GONE);
+            txtLatitude = itemView.findViewById(R.id.textLatitude);
+            txtLatitude.setVisibility(View.GONE);
+            txtBatasJarakAbsen = itemView.findViewById(R.id.textBatasJarakAbsen);
+            txtBatasJarakAbsen.setVisibility(View.GONE);
             txtIdJadwal = itemView.findViewById(R.id.textIdJadwal);
             txtIdJadwal.setVisibility(View.GONE);// hidden id jadwal
             txtIdRuangan = itemView.findViewById(R.id.textIdRuangan);
@@ -108,15 +124,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             id_jadwal = txtIdJadwal.getText().toString();
             // buat variable id jadwal
             id_ruangan = txtIdRuangan.getText().toString();
+            // / buat variable id jadwal
+            latitude = txtLatitude.getText().toString();
+            // buat variable id jadwal
+            longitude = txtLongitude.getText().toString();            // buat variable id jadwal
+            batas_jarak_absen = txtBatasJarakAbsen.getText().toString();
+            nama_ruangan = txtNamaRuangan.getText().toString();
+            tanggal = txtTanggal.getText().toString();
+            waktu_jadwal = txtWaktu.getText().toString();
 
             // show Alertdialog
-            showDialog(id_jadwal, id_ruangan);
+            showDialog(id_jadwal, id_ruangan,latitude, longitude, batas_jarak_absen,nama_ruangan,waktu_jadwal,tanggal);
 
         }
     }
 
     // tampilkan AlertDialog
-    private void showDialog(final String id_jadwal, final String id_ruangan){
+    private void showDialog(final String id_jadwal, final String id_ruangan, final String latitude,
+                            final String longitude, final String batas_jarak_absen, final String nama_ruangan, final String waktu_jadwal, final String tanggal){
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         // set title dialog
@@ -132,7 +157,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 //jika tombol Absen di klik maka akan OTOMATIS MEMBUKA KAMRE
 
                 // PROSES UNTUK MEMBUKA KAMERA
-                prosesambilFoto(id_jadwal, id_ruangan);
+                prosesambilFoto(id_jadwal, id_ruangan, latitude, longitude,batas_jarak_absen, nama_ruangan, waktu_jadwal, tanggal);
 
             }
         });
@@ -245,14 +270,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     // PROSES MEMBUKA KAMERA
-    private void prosesambilFoto(String id_jadwal, String id_ruangan){
+    private void prosesambilFoto(String id_jadwal, String id_ruangan, String latitude,
+                                 String longitude, String batas_jarak_absen, String nama_ruangan, String waktu_jadwal, String tanggal){
 
 
         // UNTUK MEMBUKA KAMERA , KITA PINDAH ACTIVITY KE BukaCameraActivity
         Intent intent = new Intent(context, BukaCameraActivity.class);
-        // KITA TARUH ID JADWAL, UNTUK DI KIRIM KE BukaCameraActivity
+        // KITA TARUH ID JADWAL,ID RUANGAN, UNTUK DI KIRIM KE BukaCameraActivity
         intent.putExtra("id_jadwal", id_jadwal);
         intent.putExtra("id_ruangan", id_ruangan);
+        intent.putExtra("latitude", latitude);
+        intent.putExtra("longitude", longitude);
+        intent.putExtra("batas_jarak_absen", batas_jarak_absen);
+        intent.putExtra("nama_ruangan", nama_ruangan);
+        intent.putExtra("waktu_jadwal", waktu_jadwal);
+        intent.putExtra("tanggal", tanggal);
         context.startActivity(intent);
     }
 
