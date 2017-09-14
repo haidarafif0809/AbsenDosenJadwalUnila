@@ -7,6 +7,6 @@ package id.andaglos.belajarandorid.config;
 public class Config {
 
 
-    public static final String BASE_URL = "http://192.168.1.20/jadwal-dosen-unila/public/";
+    public static final String BASE_URL = "http://192.168.1.36/jadwal-dosen-unila/public/";
 
 }

@@ -314,6 +314,10 @@ public class BukaCameraActivity extends AppCompatActivity implements GoogleApiCl
 
                     // MAKA ABSEN GAGAL
                     GagalAbsen();
+                }else if (value.equals("3")){
+
+                    JadwalBelumMulai();
+                    // GAGAL ABSEN , KARENA JADWAL BELUM DIMULAI
                 }
 
             }
@@ -348,6 +352,7 @@ public class BukaCameraActivity extends AppCompatActivity implements GoogleApiCl
             public void onClick(DialogInterface dialog, int id) {
                 //jika tombol Ya di klik maka akan akan menjalankan proses batal absen
                 // KEMBALI KE ACTIVITY ListJadwalActivity
+                finish();
                 startActivity(new Intent(BukaCameraActivity.this, ListJadwalActivity.class));
             }
         });
@@ -376,6 +381,33 @@ public class BukaCameraActivity extends AppCompatActivity implements GoogleApiCl
             public void onClick(DialogInterface dialog, int id) {
                 //jika tombol Ya di klik maka akan akan menjalankan proses batal absen
                 // KEMBALI KE ACTIVITY ListJadwalActivity
+                finish();
+                startActivity(new Intent(BukaCameraActivity.this, ListJadwalActivity.class));
+            }
+        });
+        // membuat alert dialog dari builder
+        AlertDialog alertDialog = AbsenGagal.create();
+
+        // menampilkan alert dialog
+        alertDialog.show();
+    }
+
+    private void JadwalBelumMulai(){
+
+        AlertDialog.Builder AbsenGagal = new AlertDialog.Builder(BukaCameraActivity.this);
+        // set title dialog
+        AbsenGagal.setTitle("Jadwal ini belum dimulai!");
+
+
+        // set pesan dialog
+        AbsenGagal.setIcon(R.drawable.logofinish);
+        AbsenGagal.setCancelable(false);
+        AbsenGagal.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+            // tombol Ya
+            public void onClick(DialogInterface dialog, int id) {
+                //jika tombol Ya di klik maka akan akan menjalankan proses batal absen
+                // KEMBALI KE ACTIVITY ListJadwalActivity
+                finish();
                 startActivity(new Intent(BukaCameraActivity.this, ListJadwalActivity.class));
             }
         });
@@ -413,6 +445,7 @@ public class BukaCameraActivity extends AppCompatActivity implements GoogleApiCl
             public void onClick(DialogInterface dialog, int id) {
                 //jika tombol Ya di klik maka akan akan menjalankan proses batal absen
                 // KEMBALI KE ACTIVITY ListJadwalActivity
+                finish();
                 startActivity(new Intent(BukaCameraActivity.this, ListJadwalActivity.class));
             }
         });
