@@ -15,6 +15,7 @@ public class Result{
     String latitude;
     String longitude;
     String batas_jarak_absen;
+    String tipe_jadwal;
 
     public String getTanggal(){
 
@@ -52,6 +53,9 @@ public class Result{
 
     public String getBatasJarakAbsen(){
         return batas_jarak_absen;
+    }
+    public String getTipeJadwal(){
+        return tipe_jadwal;
     }
 
 }

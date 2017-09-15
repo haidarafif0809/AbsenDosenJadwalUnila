@@ -125,8 +125,6 @@ public class BukaCameraActivity extends AppCompatActivity implements GoogleApiCl
 
             hitung_jarak_absen();
 
-        } else {
-
         }
     }
 
@@ -251,6 +249,9 @@ public class BukaCameraActivity extends AppCompatActivity implements GoogleApiCl
         // UNTUK MENDAPATKAN KEMBALI NILAI ID RUANGAN
         String tanggal = myIntent.getStringExtra("tanggal");
         // UNTUK MENDAPATKAN KEMBALI BATAS JAARAK ABSEN
+        //
+        String latitude_ruangan = myIntent.getStringExtra("latitude");
+        String longitude_ruangan = myIntent.getStringExtra("longitude");
 
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -262,7 +263,7 @@ public class BukaCameraActivity extends AppCompatActivity implements GoogleApiCl
 
 
           if (jarak_ke_lokasi_absen <= Float.valueOf(batas_jarak_absen) ){
-              if (latitude_sekarang != 0 && longitude_sekarang != 0){
+              if (latitude_sekarang != 0 && longitude_sekarang != 0 ){
 
                   // JIKA BITMAP TIDAK SAMA DENGAN NULL
                   if (bitmap != null){
@@ -456,6 +457,8 @@ public class BukaCameraActivity extends AppCompatActivity implements GoogleApiCl
         alertDialog.show();
 
     }
+
+
 
     @Override
     public void onBackPressed()
