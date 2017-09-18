@@ -19,12 +19,4 @@
         android:title="Logout"
         app:showAsAction="never" />
 
-    <item android:id="@+id/search"
-        android:title="Search"
-        android:icon="@mipmap/cari"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always|collapseActionView"
-        />
-
-
 </menu>

@@ -42,6 +42,11 @@
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
         <activity android:name=".BukaCameraActivity" />
+        <activity android:name=".UbahPasswordActivity"
+            android:label="Ubah Password">
+            <category android:name="android.intent.category.DEFAULT" />
+
+        </activity>
     </application>
 
 </manifest>

@@ -17,8 +17,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static id.andaglos.belajarandorid.R.id.btn_login;
-
 /**
  * Created by Andaglos on 29/08/17.
  */
@@ -41,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         // inisiasi variable
         edtUsername = (EditText) findViewById(R.id.input_username);
         edtPassword = (EditText) findViewById(R.id.input_password);
-        btnLogin = (Button) findViewById(btn_login);
+        btnLogin = (Button) findViewById(R.id.btn_login);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         /// session login
@@ -112,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     // munculkan toast message nya
                     edtUsername.setText("");// kosongkan input username
                     edtPassword.setText("");// kosongkan input password
+                    edtUsername.requestFocus();// focus ke input username
 
                 }else{// dan jika value 3
                     // user gagal login, karena user nya salah, atau passwordnya salah
@@ -121,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                     // munculkan toast message nya
                     edtUsername.setText("");// kosongkan input username
                     edtPassword.setText("");// kosongkan input password
+                    edtUsername.requestFocus();// focus ke input username
                 }
 
             }
@@ -131,6 +131,8 @@ public class LoginActivity extends AppCompatActivity {
                 progress.dismiss();// progress ditutup
                 edtUsername.setText("");// kosongkan input username
                 edtPassword.setText("");// kosongkan input password
+                edtUsername.requestFocus();// focus ke input username
+
                 Toast.makeText(LoginActivity.this, "Terjadi Kesalahan!", Toast.LENGTH_LONG).show();
                 // munculkan toast Terjadi kesalahan
                 t.printStackTrace();

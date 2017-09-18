@@ -158,12 +158,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(DialogInterface dialog, int id) {
                 //jika tombol Absen di klik maka akan OTOMATIS MEMBUKA KAMRE
 
-                // PROSES UNTUK MEMBUKA KAMERA
                 if(latitude.equals("") || longitude.equals("")){
                     dialog.cancel();
-                    LatitudeLongitudeNol();
+                    LatitudeLongitudeNol(nama_ruangan);
                 }else{
                     dialog.cancel();
+                    // PROSES UNTUK MEMBUKA KAMERA
                     prosesambilFoto(id_jadwal, id_ruangan, latitude, longitude,batas_jarak_absen, nama_ruangan, waktu_jadwal, tanggal);
                 }
 
@@ -278,17 +278,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    private void LatitudeLongitudeNol(){
+    private void LatitudeLongitudeNol(String nama_ruangan){
         AlertDialog.Builder AbsenGagal = new AlertDialog.Builder(context);
         // set title dialog
-        AbsenGagal.setTitle("Absen Gagal!");
-        AbsenGagal.setMessage("Periksa Latitude dan Longitude Ruangan Anda!");
+        AbsenGagal.setTitle("Pemberitahuan!");
+        AbsenGagal.setMessage("Lokasi Ruangan "+nama_ruangan+" Belum Ditentukan, Silakan Tentukan!");
 
 
         // set pesan dialog
         AbsenGagal.setIcon(R.drawable.logofinish);
         AbsenGagal.setCancelable(false);
-        AbsenGagal.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+        AbsenGagal.setNeutralButton("Tutup", new DialogInterface.OnClickListener() {
             // tombol Ya
             public void onClick(DialogInterface dialog, int id) {
                 //jika tombol Ya di klik maka akan akan menjalankan proses batal absen

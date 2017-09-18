@@ -194,7 +194,12 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
             finish();
             startActivity( new Intent(ListJadwalActivity.this, LoginActivity.class));
         } else if (item.getItemId() ==  R.id.list_jadwal_dosen){
+
             startActivity( new Intent(ListJadwalActivity.this, ListJadwalActivity.class));
+
+        } else if (item.getItemId() ==  R.id.ubah_password){
+
+            startActivity( new Intent(ListJadwalActivity.this, UbahPasswordActivity.class));
         }
 
 
