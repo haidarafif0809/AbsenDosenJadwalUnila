@@ -158,7 +158,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(DialogInterface dialog, int id) {
                 //jika tombol Absen di klik maka akan OTOMATIS MEMBUKA KAMRE
 
-                if(latitude.equals("") || longitude.equals("")){
+                if(latitude.equals("") || longitude.equals("") || batas_jarak_absen.equals("")){
                     dialog.cancel();
                     LatitudeLongitudeNol(nama_ruangan);
                 }else{
