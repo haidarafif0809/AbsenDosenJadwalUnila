@@ -95,7 +95,11 @@ public class UbahPasswordActivity extends AppCompatActivity {
                     editor.commit();
 
                     BerhasilUbahPassword();
-                }else{
+                }else if(value.equals("2")){
+
+                    Toast.makeText(UbahPasswordActivity.this, message, Toast.LENGTH_LONG).show();
+                    // munculkan toast Terjadi kesalahan
+                }else if(value.equals("0")){
 
                     Toast.makeText(UbahPasswordActivity.this, message, Toast.LENGTH_LONG).show();
                     // munculkan toast Terjadi kesalahan
