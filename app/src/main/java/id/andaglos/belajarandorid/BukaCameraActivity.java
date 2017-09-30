@@ -250,8 +250,6 @@ public class BukaCameraActivity extends AppCompatActivity implements GoogleApiCl
         String tanggal = myIntent.getStringExtra("tanggal");
         // UNTUK MENDAPATKAN KEMBALI BATAS JAARAK ABSEN
         //
-        String latitude_ruangan = myIntent.getStringExtra("latitude");
-        String longitude_ruangan = myIntent.getStringExtra("longitude");
 
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
