@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -29,6 +27,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.kishan.askpermission.AskPermission;
@@ -45,6 +44,8 @@ import id.andaglos.belajarandorid.config.Value;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
 public class ListJadwalActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, PermissionCallback, ErrorCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -65,8 +66,8 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
     private LocationRequest mLocationRequest;
 
     // Location updates intervals in sec
-    private static int UPDATE_INTERVAL = 10000; // 10 sec
-    private static int FATEST_INTERVAL = 5000; // 5 sec
+    private static int UPDATE_INTERVAL = 5000; // 5 sec
+    private static int FATEST_INTERVAL = 2000; // 2 sec
     private static int DISPLACEMENT = 10; // 10 meters
 
 
@@ -136,21 +137,35 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
             @Override
             public void onResponse(Call<Value> call, Response<Value> response) {
 
-                    String value = response.body().getValue();// ambil vallue
-
                 progressBar.setVisibility(View.GONE);// hidden progressbar
 
-                if (value.equals("0")) {// jika value bernilai nol,
-                    // maka
+                try {
+
+                    String value = response.body().getValue();// ambil vallue
+
+                    if (value.equals("0")) {// jika value bernilai nol,
+                        // maka
+                        imageView.setVisibility(View.VISIBLE);// Show Image View
+                        jadwal_kosong.setVisibility(View.VISIBLE);// Hidden Text Jadwal Kosong
+
+                    }else{// jika tidak
+                        // tampilkan lsit jadwal
+                        results = response.body().getResult();
+                        viewAdapter = new RecyclerViewAdapter(ListJadwalActivity.this, results);
+                        recyclerView.setAdapter(viewAdapter);
+                    }
+
+
+                } catch (NullPointerException e){
+
                     imageView.setVisibility(View.VISIBLE);// Show Image View
                     jadwal_kosong.setVisibility(View.VISIBLE);// Hidden Text Jadwal Kosong
 
-                }else{// jika tidak
-                    // tampilkan lsit jadwal
-                    results = response.body().getResult();
-                    viewAdapter = new RecyclerViewAdapter(ListJadwalActivity.this, results);
-                    recyclerView.setAdapter(viewAdapter);
                 }
+
+
+
+
             }
 
             @Override
@@ -188,17 +203,26 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
             @Override
             public void onResponse(Call<Value> call, Response<Value> response) {
 
-                String value = response.body().getValue();
                 progressBar.setVisibility(View.GONE); //hidden progressBar
-                recyclerView.setVisibility(View.VISIBLE);// tampilkan recycle view
+                try {
+                    String value = response.body().getValue();
 
-                // jika value bernilai 1
-                if (value.equals("1")) {
-                    // maka akan tampil jadwal yang dicari
-                    results = response.body().getResult();
-                    viewAdapter = new RecyclerViewAdapter(ListJadwalActivity.this, results);
-                    recyclerView.setAdapter(viewAdapter);
+                    recyclerView.setVisibility(View.VISIBLE);// tampilkan recycle view
+
+                    // jika value bernilai 1
+                    if (value.equals("1")) {
+                        // maka akan tampil jadwal yang dicari
+                        results = response.body().getResult();
+                        viewAdapter = new RecyclerViewAdapter(ListJadwalActivity.this, results);
+                        recyclerView.setAdapter(viewAdapter);
+                    }
+
+
+                } catch (NullPointerException e){
+                    imageView.setVisibility(View.VISIBLE);// Show Image View
+                    jadwal_kosong.setVisibility(View.VISIBLE);// Hidden Text Jadwal Kosong
                 }
+
             }
 
             @Override
@@ -275,11 +299,16 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
 
         SharedPreferences shared = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         String login_username = (shared.getString(username, ""));
+        checkPlayServices();
+
 
         loadDataJadwal(login_username);
-        // Lanjutkan update lokasi secara berkala
-        if (mGoogleApiClient.isConnected()) {
-            startLocationUpdates();
+        if (mGoogleApiClient != null) {
+
+            // Lanjutkan update lokasi secara berkala
+            if (mGoogleApiClient.isConnected()) {
+                startLocationUpdates();
+            }
         }
     }
 
@@ -350,7 +379,7 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mLastLocation = LocationServices.FusedLocationApi
+        mLastLocation = FusedLocationApi
                 .getLastLocation(mGoogleApiClient);
 
         if (mLastLocation != null) {
@@ -391,7 +420,7 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
 
     @Override
     public void onPermissionsGranted(int requestCode) {
-        Toast.makeText(this, "Perizinan Diterima.", Toast.LENGTH_LONG).show();
+
     }
 
     @Override
@@ -446,7 +475,7 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
      * Stopping location updates
      */
     protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
+        FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
     }
 
     /**
@@ -488,28 +517,19 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
 
     @Override
     public void onLocationChanged(Location location) {
-
+        // Assign the new location
+        mLastLocation = location;
     }
 
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
 
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
     @Override
     public void onConnected(Bundle arg0) {
 
         // Once connected with google api, get the location
-        displayLocation();
+
+        startLocationUpdates();
+
+
     }
 
     @Override
