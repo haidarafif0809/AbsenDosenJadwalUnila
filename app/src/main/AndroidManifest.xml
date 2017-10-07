@@ -42,11 +42,13 @@
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
         <activity android:name=".BukaCameraActivity" />
-        <activity android:name=".UbahPasswordActivity"
+        <activity
+            android:name=".UbahPasswordActivity"
             android:label="Ubah Password">
             <category android:name="android.intent.category.DEFAULT" />
-
         </activity>
+        <activity android:name=".Profile"
+            android:label="Profile"></activity>
     </application>
 
 </manifest>

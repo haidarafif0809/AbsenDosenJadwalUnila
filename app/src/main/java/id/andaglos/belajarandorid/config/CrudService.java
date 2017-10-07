@@ -76,7 +76,13 @@ public class CrudService {
         registerApi.CekVersiAplikasi().enqueue(callback);
     }
 
-   
+    public void CekProfileDosen(String user, Callback callback){
+        registerApi.CekProfileDosen(user).enqueue(callback);
+    }
+    public void UpdateProfile(String image, String user, Callback callback){
+        registerApi.UpdateProfile(image,user).enqueue(callback);
+    }
+
 
 
 

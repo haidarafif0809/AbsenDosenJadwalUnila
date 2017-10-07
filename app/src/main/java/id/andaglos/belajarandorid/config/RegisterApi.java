@@ -56,6 +56,16 @@ public interface RegisterApi {
                             @Field("password_baru") String password_baru);
 
 
+    @FormUrlEncoded
+    @POST("cek_profile_dosen")
+    Call<Value>CekProfileDosen(@Field("user") String user);
+
+    @FormUrlEncoded
+    @POST("update_profile_dosen")
+    Call<Value>UpdateProfile(@Field("image") String image,
+                             @Field("user") String user);
+
+
     @GET("versi-absen-dosen")
     Call<Value> CekVersiAplikasi();
 

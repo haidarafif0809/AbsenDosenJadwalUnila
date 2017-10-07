@@ -259,6 +259,9 @@ public class UbahPasswordActivity extends AppCompatActivity implements GoogleApi
         } else if (item.getItemId() ==  R.id.ubah_password){
 
             startActivity( new Intent(UbahPasswordActivity.this, UbahPasswordActivity.class));
+        } else if (item.getItemId() ==  R.id.foto_profile){
+
+            startActivity( new Intent(UbahPasswordActivity.this, Profile.class));
         }
 
 
@@ -438,4 +441,10 @@ public class UbahPasswordActivity extends AppCompatActivity implements GoogleApi
     public void onShowSettings(PermissionInterface permissionInterface, int requestCode) {
 
     }
+
+    public void onBackPressed()
+    {
+        finish();
+    }// jika user tekan tombol back
+
 }
