@@ -72,5 +72,12 @@ public class CrudService {
     }
 
 
+    public void CekVersiAplikasi(Callback callback){
+        registerApi.CekVersiAplikasi().enqueue(callback);
+    }
+
+   
+
+
 
 }
