@@ -2,9 +2,12 @@ package id.andaglos.belajarandorid;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     public static final String MyPREFERENCES = "login" ;
     public static final String username = "usernameKey";
     private ProgressDialog progress;// progress
+    Context context = this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,61 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
 
+            }
+        });
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        cekVersiApp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cekVersiApp();
+    }
+
+
+    //CEK APAKAH VERSI APLIKASI DI HP USER SUDAH SAMA DENGAN VERSI YG ADA DI APLIKASI TERBARU
+    private void cekVersiApp(){
+
+        CrudService cek = new CrudService();
+        cek.CekVersiAplikasi(new Callback<Value>() {
+            @Override
+            public void onResponse(Call<Value> call, Response<Value> response) {
+
+                String value = response.body().getValue();
+                String versiAplikasi = BuildConfig.VERSION_NAME;
+
+                if (!value.equals(versiAplikasi)) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                    builder.setTitle("Pemberitahuan");
+                    builder.setIcon(R.drawable.logofinish);
+                    builder.setMessage("Aplikasi Anda Menggunakan Versi Lawas. Update Aplikasi Versi Terbaru.");
+                    builder.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //BUKA PLAYSTORE ANDROID
+                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                            }
+                            catch (android.content.ActivityNotFoundException anfe) {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                            }
+                        }
+                    }).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Value> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
             }
         });
     }

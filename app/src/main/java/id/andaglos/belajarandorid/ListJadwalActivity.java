@@ -291,6 +291,8 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
     @Override
     protected void onResume() {
         super.onResume();
+        cekVersiApp();
+
 
         SharedPreferences shared = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         String login_username = (shared.getString(username, ""));
@@ -305,6 +307,48 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
                 startLocationUpdates();
             }
         }
+    }
+
+
+    //CEK APAKAH VERSI APLIKASI DI HP USER SUDAH SAMA DENGAN VERSI YG ADA DI APLIKASI TERBARU
+    private void cekVersiApp(){
+
+        CrudService cek = new CrudService();
+        cek.CekVersiAplikasi(new Callback<Value>() {
+            @Override
+            public void onResponse(Call<Value> call, Response<Value> response) {
+
+                String value = response.body().getValue();
+                String versiAplikasi = BuildConfig.VERSION_NAME;
+
+                if (!value.equals(versiAplikasi)) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ListJadwalActivity.this);
+
+                    builder.setTitle("Pemberitahuan");
+                    builder.setIcon(R.drawable.logofinish);
+                    builder.setMessage("Aplikasi Anda Menggunakan Versi Lawas. Update Aplikasi Versi Terbaru.");
+                    builder.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //BUKA PLAYSTORE ANDROID
+                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                            }
+                            catch (android.content.ActivityNotFoundException anfe) {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                            }
+                        }
+                    }).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Value> call, Throwable t) {
+                Toast.makeText(ListJadwalActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void reqPermission() {
@@ -455,6 +499,8 @@ public class ListJadwalActivity extends AppCompatActivity implements SearchView.
     @Override
     protected void onStart() {
         super.onStart();
+        cekVersiApp();
+
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
